@@ -47,8 +47,8 @@ module "eks_blueprints" {
   cluster_name    = local.name
   cluster_version = "1.22"
 
-  vpc_id             = module.vpc.vpc_id
-  private_subnet_ids = module.vpc.private_subnets
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
 
   # Add MWAA IAM Role to aws-auth configmap
   map_roles = [
@@ -111,9 +111,9 @@ module "mwaa" {
   min_workers = 1
   max_workers = 25
 
-  vpc_id             = module.vpc.vpc_id
-  private_subnet_ids = slice(module.vpc.private_subnets, 0, 2) # Required 2 subnets only
-  source_cidr        = [module.vpc.vpc_cidr_block]             # Add your IP here to access Airflow UI
+  vpc_id      = module.vpc.vpc_id
+  subnet_ids  = slice(module.vpc.private_subnets, 0, 2) # Required 2 subnets only
+  source_cidr = [module.vpc.vpc_cidr_block]             # Add your IP here to access Airflow UI
 
   airflow_configuration_options = {
     "core.load_default_connections" = "false"
